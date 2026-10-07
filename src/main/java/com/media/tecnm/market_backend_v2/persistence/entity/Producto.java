@@ -87,6 +87,22 @@ public class Producto {
         this.cantidadStock = cantidadStock;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public List<CompraProducto> getCompraProductos() {
+        return compraProductos;
+    }
+
+    public void setCompraProductos(List<CompraProducto> compraProductos) {
+        this.compraProductos = compraProductos;
+    }
+
     public Boolean getEstado() {
         return estado;
     }

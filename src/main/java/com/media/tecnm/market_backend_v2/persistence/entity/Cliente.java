@@ -59,6 +59,14 @@ public class Cliente {
         return direccion;
     }
 
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
+    }
+
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
