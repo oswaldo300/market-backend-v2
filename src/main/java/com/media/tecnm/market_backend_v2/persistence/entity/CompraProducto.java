@@ -1,23 +1,23 @@
 package com.media.tecnm.market_backend_v2.persistence.entity;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "compras_productos")
-
 public class CompraProducto {
 
-    //Viene de otra clase
     @EmbeddedId
     private CompraProductoPK id;
 
-    private Integer Cantidad;
+    // CORRECCIÓN: variable en minúscula
+    private Integer cantidad;
     private Double total;
     private Boolean estado;
+    private LocalDateTime fecha;
 
     @ManyToOne
+    @MapsId("idCompra")
     @JoinColumn(name = "id_compra", insertable = false, updatable = false)
     private Compra compra;
 
@@ -25,10 +25,7 @@ public class CompraProducto {
     @JoinColumn(name = "id_producto", insertable = false, updatable = false)
     private Producto producto;
 
-
-
-    private LocalDateTime fecha;
-
+    // --- GETTERS Y SETTERS ---
     public CompraProductoPK getId() {
         return id;
     }
@@ -38,11 +35,11 @@ public class CompraProducto {
     }
 
     public Integer getCantidad() {
-        return Cantidad;
+        return cantidad;
     }
 
     public void setCantidad(Integer cantidad) {
-        Cantidad = cantidad;
+        this.cantidad = cantidad;
     }
 
     public Double getTotal() {
@@ -55,6 +52,10 @@ public class CompraProducto {
 
     public Boolean getEstado() {
         return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public Compra getCompra() {
@@ -71,10 +72,6 @@ public class CompraProducto {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
-    }
-
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
     }
 
     public LocalDateTime getFecha() {

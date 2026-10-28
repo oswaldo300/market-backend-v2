@@ -1,7 +1,6 @@
 package com.media.tecnm.market_backend_v2.persistence.entity;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -15,8 +14,9 @@ public class Producto {
 
     private String nombre;
 
+    // El atributo es idCategoria (Java), pero la columna en PostgreSQL es id_categoria (SQL)
     @Column(name = "id_categoria")
-    private Integer id_categoria;
+    private Integer idCategoria;
 
     @Column(name = "codigo_barras")
     private String codigoBarras;
@@ -33,81 +33,26 @@ public class Producto {
     @JoinColumn(name = "id_categoria", insertable = false, updatable = false)
     private Categoria categoria;
 
-    //ojito
     @OneToMany(mappedBy = "producto")
     private List<CompraProducto> compraProductos;
 
-
-
-    public Integer getIdProducto() {
-        return idProducto;
-    }
-
-    public void setIdProducto(Integer idProducto) {
-        this.idProducto = idProducto;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Integer getId_categoria() {
-        return id_categoria;
-    }
-
-    public void setId_categoria(Integer id_categoria) {
-        this.id_categoria = id_categoria;
-    }
-
-    public String getCodigoBarras() {
-        return codigoBarras;
-    }
-
-    public void setCodigoBarras(String codigoBarras) {
-        this.codigoBarras = codigoBarras;
-    }
-
-    public Double getPrecioVenta() {
-        return precioVenta;
-    }
-
-    public void setPrecioVenta(Double precioVenta) {
-        this.precioVenta = precioVenta;
-    }
-
-    public Integer getCantidadStock() {
-        return cantidadStock;
-    }
-
-    public void setCantidadStock(Integer cantidadStock) {
-        this.cantidadStock = cantidadStock;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    public List<CompraProducto> getCompraProductos() {
-        return compraProductos;
-    }
-
-    public void setCompraProductos(List<CompraProducto> compraProductos) {
-        this.compraProductos = compraProductos;
-    }
-
-    public Boolean getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
-    }
+    // Getters y Setters
+    public Integer getIdProducto() { return idProducto; }
+    public void setIdProducto(Integer idProducto) { this.idProducto = idProducto; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public Integer getIdCategoria() { return idCategoria; }
+    public void setIdCategoria(Integer idCategoria) { this.idCategoria = idCategoria; }
+    public String getCodigoBarras() { return codigoBarras; }
+    public void setCodigoBarras(String codigoBarras) { this.codigoBarras = codigoBarras; }
+    public Double getPrecioVenta() { return precioVenta; }
+    public void setPrecioVenta(Double precioVenta) { this.precioVenta = precioVenta; }
+    public Integer getCantidadStock() { return cantidadStock; }
+    public void setCantidadStock(Integer cantidadStock) { this.cantidadStock = cantidadStock; }
+    public Boolean getEstado() { return estado; }
+    public void setEstado(Boolean estado) { this.estado = estado; }
+    public Categoria getCategoria() { return categoria; }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
+    public List<CompraProducto> getCompraProductos() { return compraProductos; }
+    public void setCompraProductos(List<CompraProducto> compraProductos) { this.compraProductos = compraProductos; }
 }
