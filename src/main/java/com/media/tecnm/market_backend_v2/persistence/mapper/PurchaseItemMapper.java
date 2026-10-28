@@ -14,7 +14,7 @@ public interface PurchaseItemMapper {
             @Mapping(source = "id.idProducto", target = "productId"),
             @Mapping(source = "cantidad", target = "quantity"),
             @Mapping(source = "estado", target = "active")
-            // 'total' se mapea automáticamente por tener el mismo nombre
+            // 'total' se mapea solo
     })
     PurchaseItem toPurchaseItem(CompraProducto producto);
 
@@ -22,5 +22,6 @@ public interface PurchaseItemMapper {
     @Mapping(target = "compra", ignore = true)
     @Mapping(target = "producto", ignore = true)
     @Mapping(target = "id.idCompra", ignore = true)
+    @Mapping(target = "fecha", ignore = true) // <-- IGNORAMOS LA FECHA AQUÍ PARA EVITAR EL ERROR
     CompraProducto toCompraProducto(PurchaseItem item);
 }
