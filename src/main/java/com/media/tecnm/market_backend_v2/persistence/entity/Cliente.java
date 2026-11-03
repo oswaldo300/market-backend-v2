@@ -1,33 +1,32 @@
 package com.media.tecnm.market_backend_v2.persistence.entity;
 
-import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
 @Table(name = "clientes")
-
 public class Cliente {
 
     @Id
-    private Integer id;
+    @Column(name = "id_cliente")
+    private String id;
+
     private String nombre;
     private String apellidos;
     private String celular;
     private String direccion;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Compra> compras;
-
     @Column(name = "correo_electronico")
     private String correoElectronico;
 
-    public Integer getId() {
+    @OneToMany(mappedBy = "cliente")
+    private List<Compra> compras;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -59,14 +58,6 @@ public class Cliente {
         return direccion;
     }
 
-    public List<Compra> getCompras() {
-        return compras;
-    }
-
-    public void setCompras(List<Compra> compras) {
-        this.compras = compras;
-    }
-
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
@@ -77,5 +68,13 @@ public class Cliente {
 
     public void setCorreoElectronico(String correoElectronico) {
         this.correoElectronico = correoElectronico;
+    }
+
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
     }
 }
