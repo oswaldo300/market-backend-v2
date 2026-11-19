@@ -21,14 +21,21 @@ public class PurchaseService {
     @Autowired
     private PurchaseRequestMapper purchaseRequestMapper;
 
+    // Los GET leen la colección lazy 'productos' de Compra al mapear a Purchase.
+    // Con spring.jpa.open-in-view=false la sesión se cierra al terminar el
+    // repositorio, así que el mapeo debe ocurrir dentro de una transacción;
+    // sin esto, GET /purchases daba LazyInitializationException (500).
+    @Transactional(readOnly = true)
     public List<Purchase> getAll() {
         return purchaseRepository.getAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Purchase> getPurchase(int purchaseId) {
         return purchaseRepository.getPurchase(purchaseId);
     }
 
+    @Transactional(readOnly = true)
     public Optional<List<Purchase>> getByClient(String clientId) {
         return purchaseRepository.getByClient(clientId);
     }
