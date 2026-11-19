@@ -2,9 +2,13 @@ package com.media.tecnm.market_backend_v2.domain.service;
 
 import com.media.tecnm.market_backend_v2.domain.Purchase;
 import com.media.tecnm.market_backend_v2.domain.repository.PurchaseRepository;
+import com.media.tecnm.market_backend_v2.persistence.mapper.PurchaseRequestMapper;
+import com.media.tecnm.market_backend_v2.web.dto.PurchaseRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,15 +18,37 @@ public class PurchaseService {
     @Autowired
     private PurchaseRepository purchaseRepository;
 
+    @Autowired
+    private PurchaseRequestMapper purchaseRequestMapper;
+
     public List<Purchase> getAll() {
         return purchaseRepository.getAll();
+    }
+
+    public Optional<Purchase> getPurchase(int purchaseId) {
+        return purchaseRepository.getPurchase(purchaseId);
     }
 
     public Optional<List<Purchase>> getByClient(String clientId) {
         return purchaseRepository.getByClient(clientId);
     }
 
+    @Transactional
     public Purchase save(Purchase purchase) {
+        return purchaseRepository.save(purchase);
+    }
+
+    @Transactional
+    public Purchase save(PurchaseRequest request) {
+        if (request.getProductosAdquiridos() == null || request.getProductosAdquiridos().isEmpty()) {
+            throw new IllegalArgumentException("La compra debe tener al menos un producto");
+        }
+
+        Purchase purchase = purchaseRequestMapper.toPurchase(request);
+        purchase.setDate(LocalDateTime.now());
+        purchase.setState("A");
+        purchase.getItems().forEach(item -> item.setActive(true));
+
         return purchaseRepository.save(purchase);
     }
 }
