@@ -71,6 +71,11 @@ public class ProductController {
 
     @PostMapping("")
     public ResponseEntity<Product> save(@RequestBody Product product) {
+        // El id lo genera la base de datos: si viene en el cuerpo (el ejemplo de
+        // Swagger siempre trae productId), Spring Data hace merge() en vez de
+        // persist() y Hibernate revienta con StaleObjectStateException (500),
+        // porque asume que un id generado ya existe en la tabla.
+        product.setProductId(null);
         return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
     }
 

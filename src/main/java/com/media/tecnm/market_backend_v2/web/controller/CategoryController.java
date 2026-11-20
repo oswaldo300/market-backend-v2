@@ -59,6 +59,11 @@ public class CategoryController {
     @ApiResponse(responseCode = "500",
             description = "Internal Server Error")
     public ResponseEntity<Category> save(@RequestBody Category category) {
+        // El id lo genera la base de datos: si viene en el cuerpo (el ejemplo de
+        // Swagger siempre trae categoryId), Spring Data hace merge() en vez de
+        // persist() y Hibernate revienta con StaleObjectStateException (500),
+        // porque asume que un id generado ya existe en la tabla.
+        category.setCategoryId(null);
         return new ResponseEntity<>(categoryService.save(category), HttpStatus.CREATED);
     }
 
