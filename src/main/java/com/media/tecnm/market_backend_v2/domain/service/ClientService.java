@@ -3,6 +3,7 @@ package com.media.tecnm.market_backend_v2.domain.service;
 import com.media.tecnm.market_backend_v2.domain.Client;
 import com.media.tecnm.market_backend_v2.domain.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,9 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public List<Client> getAll() {
         return clientRepository.getAll();
     }
@@ -23,6 +27,15 @@ public class ClientService {
     }
 
     public Client save(Client client) {
+        String rawPassword = client.getPassword();
+        if (rawPassword != null && !rawPassword.isBlank()) {
+            // Never store plain text: hash the password with BCrypt.
+            client.setPassword(passwordEncoder.encode(rawPassword));
+        } else {
+            // Update without a password in the body: keep the stored hash.
+            getClient(client.getClientId())
+                    .ifPresent(existing -> client.setPassword(existing.getPassword()));
+        }
         return clientRepository.save(client);
     }
 
